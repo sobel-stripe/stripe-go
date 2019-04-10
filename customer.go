@@ -4,6 +4,16 @@ import (
 	"encoding/json"
 )
 
+// CustomerTaxExempt is the type of tax exemption associated with a customer.
+type CustomerTaxExempt string
+
+// List of values that CustomerTaxInfoType can take.
+const (
+	CustomerTaxExemptExempt  CustomerTaxExempt = "exempt"
+	CustomerTaxExemptNone    CustomerTaxExempt = "none"
+	CustomerTaxExemptReverse CustomerTaxExempt = "reverse"
+)
+
 // CustomerTaxInfoType is the type of tax info associated with a customer.
 type CustomerTaxInfoType string
 
@@ -33,14 +43,17 @@ type CustomerParams struct {
 	Email           *string                        `form:"email"`
 	InvoicePrefix   *string                        `form:"invoice_prefix"`
 	InvoiceSettings *CustomerInvoiceSettingsParams `form:"invoice_settings"`
-	Plan            *string                        `form:"plan"`
-	Quantity        *int64                         `form:"quantity"`
 	Shipping        *CustomerShippingDetailsParams `form:"shipping"`
 	Source          *SourceParams                  `form:"*"` // SourceParams has custom encoding so brought to top level with "*"
 	TaxInfo         *CustomerTaxInfoParams         `form:"tax_info"`
-	TaxPercent      *float64                       `form:"tax_percent"`
+	TaxExempt       *string                        `form:"tax_exempt"`
 	Token           *string                        `form:"-"` // This doesn't seem to be used?
-	TrialEnd        *int64                         `form:"trial_end"`
+
+	// The parameters below are considered deprecated. Consider creating a Subscription separately instead.
+	Plan       *string  `form:"plan"`
+	Quantity   *int64   `form:"quantity"`
+	TaxPercent *float64 `form:"tax_percent"`
+	TrialEnd   *int64   `form:"trial_end"`
 }
 
 // CustomerInvoiceCustomFieldParams represents the parameters associated with one custom field on
@@ -107,6 +120,7 @@ type Customer struct {
 	Shipping            *CustomerShippingDetails     `json:"shipping"`
 	Sources             *SourceList                  `json:"sources"`
 	Subscriptions       *SubscriptionList            `json:"subscriptions"`
+	TaxExempt           CustomerTaxExempt            `json:"tax_exempt"`
 	TaxInfo             *CustomerTaxInfo             `json:"tax_info"`
 	TaxInfoVerification *CustomerTaxInfoVerification `json:"tax_info_verification"`
 }

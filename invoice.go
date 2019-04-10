@@ -95,7 +95,7 @@ type InvoiceParams struct {
 	Paid                 *bool                       `form:"paid"`
 	StatementDescriptor  *string                     `form:"statement_descriptor"`
 	Subscription         *string                     `form:"subscription"`
-	TaxPercent           *float64                    `form:"tax_percent"`
+	TaxRates             []*string                   `form:"tax_rates"`
 	TransferData         *InvoiceTransferDataParams  `form:"transfer_data"`
 
 	// These are all for exclusive use by GetNext.
@@ -115,6 +115,9 @@ type InvoiceParams struct {
 
 	// This parameter is considered deprecated. Prefer using ApplicationFeeAmount
 	ApplicationFee *int64 `form:"application_fee"`
+
+	// This parameter is deprecated and we recommend that you use TaxRates instead.
+	TaxPercent *float64 `form:"tax_percent"`
 }
 
 // InvoiceListParams is the set of parameters that can be used when listing invoices.
@@ -221,17 +224,28 @@ type Invoice struct {
 	SubscriptionProrationDate int64                    `json:"subscription_proration_date"`
 	Subtotal                  int64                    `json:"subtotal"`
 	Tax                       int64                    `json:"tax"`
-	TaxPercent                float64                  `json:"tax_percent"`
+	TaxRates                  []*TaxRate               `json:"tax_rates"`
 	ThreasholdReason          *InvoiceThresholdReason  `json:"threshold_reason"`
 	Total                     int64                    `json:"total"`
+	TotalTaxAmounts           []*InvoiceTaxAmount      `json:"total_tax_amounts"`
 	TransferData              *InvoiceTransferData     `json:"transfer_data"`
 	WebhooksDeliveredAt       int64                    `json:"webhooks_delivered_at"`
+
+	// This field is deprecated and we recommend that you use TaxRates instead.
+	TaxPercent float64 `json:"tax_percent"`
 }
 
-// InvoiceCustomField is a structure representing a custom field on an Invoice.
+// InvoiceCustomField is a structure representing a custom field on an invoice.
 type InvoiceCustomField struct {
 	Name  string `json:"name"`
 	Value string `json:"value"`
+}
+
+// InvoiceTaxAmount is a structure representing one of the tax amounts on an invoice.
+type InvoiceTaxAmount struct {
+	Amount  int64 `json:"amount"`
+	Inclusive bool `json:"inclusive"`
+	TaxRate *TaxRate `json:"tax_rate"`
 }
 
 // InvoiceThresholdReason is a structure representing a reason for a billing threshold.
@@ -269,6 +283,7 @@ type InvoiceLine struct {
 	Quantity         int64             `json:"quantity"`
 	Subscription     string            `json:"subscription"`
 	SubscriptionItem string            `json:"subscription_item"`
+	TaxRates         []*TaxRate        `json:"tax_rates"`
 	Type             InvoiceLineType   `json:"type"`
 }
 

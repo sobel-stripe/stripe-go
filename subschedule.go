@@ -38,6 +38,7 @@ type SubscriptionSchedulePhaseItemParams struct {
 	BillingThresholds *SubscriptionItemBillingThresholdsParams `form:"billing_thresholds"`
 	Plan              *string                                  `form:"plan"`
 	Quantity          *int64                                   `form:"quantity"`
+	TaxRates          []*string                                `form:"tax_rates"`
 }
 
 // SubscriptionSchedulePhaseParams is a structure representing the parameters allowed to control
@@ -49,9 +50,12 @@ type SubscriptionSchedulePhaseParams struct {
 	Iterations            *int64                                 `form:"iterations"`
 	Plans                 []*SubscriptionSchedulePhaseItemParams `form:"plans"`
 	StartDate             *int64                                 `form:"start_date"`
-	TaxPercent            *float64                               `form:"tax_percent"`
+	TaxRates              []*string                              `form:"tax_rates"`
 	Trial                 *bool                                  `form:"trial"`
 	TrialEnd              *int64                                 `form:"trial_end"`
+
+	// This parameter is deprecated and we recommend that you use TaxRates instead.
+	TaxPercent *float64 `form:"tax_percent"`
 }
 
 // SubscriptionScheduleRenewalIntervalParams is a structure representing the renewal interval
@@ -125,6 +129,7 @@ type SubscriptionSchedulePhaseItem struct {
 	BillingThresholds *SubscriptionItemBillingThresholds `json:"billing_thresholds"`
 	Plan              *Plan                              `json:"plan"`
 	Quantity          int64                              `json:"quantity"`
+	TaxRates          []*TaxRate                         `json:"tax_rates"`
 }
 
 // SubscriptionSchedulePhase is a structure a phase of a subscription schedule.
@@ -134,8 +139,11 @@ type SubscriptionSchedulePhase struct {
 	EndDate               int64                            `json:"end_date"`
 	Plans                 []*SubscriptionSchedulePhaseItem `json:"plans"`
 	StartDate             int64                            `json:"start_date"`
-	TaxPercent            float64                          `json:"tax_percent"`
+	TaxRates              []*TaxRate                       `json:"tax_rates"`
 	TrialEnd              int64                            `json:"trial_end"`
+
+	// This field is deprecated and we recommend that you use TaxRates instead.
+	TaxPercent float64 `json:"tax_percent"`
 }
 
 // SubscriptionScheduleRenewalInterval represents the interval and duration of a schedule.

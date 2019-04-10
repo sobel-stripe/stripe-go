@@ -46,7 +46,10 @@ func TestSubscriptionNew(t *testing.T) {
 				Quantity: stripe.Int64(20),
 			},
 		},
-		TaxPercent:         stripe.Float64(20.0),
+		TaxRates: []*string{
+			stripe.String("txr_123"),
+			stripe.String("txr_456"),
+		},
 		BillingCycleAnchor: stripe.Int64(time.Now().AddDate(0, 0, 12).Unix()),
 		Billing:            stripe.String(string(stripe.SubscriptionBillingSendInvoice)),
 		DaysUntilDue:       stripe.Int64(30),
@@ -72,7 +75,10 @@ func TestSubscriptionNew_WithItems(t *testing.T) {
 func TestSubscriptionUpdate(t *testing.T) {
 	subscription, err := Update("sub_123", &stripe.SubscriptionParams{
 		Prorate:    stripe.Bool(true),
-		TaxPercent: stripe.Float64(0),
+		TaxRates: []*string{
+			stripe.String("txr_123"),
+			stripe.String("txr_456"),
+		},
 	})
 	assert.Nil(t, err)
 	assert.NotNil(t, subscription)
