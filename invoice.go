@@ -193,6 +193,10 @@ type Invoice struct {
 	Currency                  Currency                 `json:"currency"`
 	CustomFields              []*InvoiceCustomField    `json:"custom_fields"`
 	Customer                  *Customer                `json:"customer"`
+	CustomerAddress           *Address                 `json:"customer_address"`
+	CustomerName              *string                  `json:"customer_name"`
+	CustomerPhone             *string                  `json:"customer_phone"`
+	CustomerShipping          *CustomerShippingDetails `json:"customer_shipping"`
 	DefaultPaymentMethod      *PaymentMethod           `json:"default_payment_method"`
 	DefaultSource             *PaymentSource           `json:"default_source"`
 	Description               string                   `json:"description"`

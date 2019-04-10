@@ -25,22 +25,26 @@ const (
 // CustomerParams is the set of parameters that can be used when creating or updating a customer.
 // For more details see https://stripe.com/docs/api#create_customer and https://stripe.com/docs/api#update_customer.
 type CustomerParams struct {
-	Params          `form:"*"`
-	AccountBalance  *int64                         `form:"account_balance"`
-	Coupon          *string                        `form:"coupon"`
-	DefaultSource   *string                        `form:"default_source"`
-	Description     *string                        `form:"description"`
-	Email           *string                        `form:"email"`
-	InvoicePrefix   *string                        `form:"invoice_prefix"`
-	InvoiceSettings *CustomerInvoiceSettingsParams `form:"invoice_settings"`
-	Plan            *string                        `form:"plan"`
-	Quantity        *int64                         `form:"quantity"`
-	Shipping        *CustomerShippingDetailsParams `form:"shipping"`
-	Source          *SourceParams                  `form:"*"` // SourceParams has custom encoding so brought to top level with "*"
-	TaxInfo         *CustomerTaxInfoParams         `form:"tax_info"`
-	TaxPercent      *float64                       `form:"tax_percent"`
-	Token           *string                        `form:"-"` // This doesn't seem to be used?
-	TrialEnd        *int64                         `form:"trial_end"`
+	Params             `form:"*"`
+	AccountBalance     *int64                         `form:"account_balance"`
+	Address            *AddressParams                 `form:"address"`
+	Coupon             *string                        `form:"coupon"`
+	DefaultSource      *string                        `form:"default_source"`
+	Description        *string                        `form:"description"`
+	Email              *string                        `form:"email"`
+	InvoicePrefix      *string                        `form:"invoice_prefix"`
+	InvoiceSettings    *CustomerInvoiceSettingsParams `form:"invoice_settings"`
+	Name               *string                        `form:"name"`
+	Phone              *string                        `form:"phone"`
+	Plan               *string                        `form:"plan"`
+	PreferredLanguages []*string                      `form:"preferred_languages"`
+	Quantity           *int64                         `form:"quantity"`
+	Shipping           *CustomerShippingDetailsParams `form:"shipping"`
+	Source             *SourceParams                  `form:"*"` // SourceParams has custom encoding so brought to top level with "*"
+	TaxInfo            *CustomerTaxInfoParams         `form:"tax_info"`
+	TaxPercent         *float64                       `form:"tax_percent"`
+	Token              *string                        `form:"-"` // This doesn't seem to be used?
+	TrialEnd           *int64                         `form:"trial_end"`
 }
 
 // CustomerInvoiceCustomFieldParams represents the parameters associated with one custom field on
@@ -92,6 +96,7 @@ type CustomerListParams struct {
 // For more details see https://stripe.com/docs/api#customers.
 type Customer struct {
 	AccountBalance      int64                        `json:"account_balance"`
+	Address             Address                      `json:"address"`
 	Created             int64                        `json:"created"`
 	Currency            Currency                     `json:"currency"`
 	DefaultSource       *PaymentSource               `json:"default_source"`
@@ -104,6 +109,9 @@ type Customer struct {
 	InvoicePrefix       string                       `json:"invoice_prefix"`
 	Livemode            bool                         `json:"livemode"`
 	Metadata            map[string]string            `json:"metadata"`
+	Name                string                       `json:"name"`
+	Phone               string                       `json:"phone"`
+	PreferredLanguages  []string                     `json:"preferred_languages"`
 	Shipping            *CustomerShippingDetails     `json:"shipping"`
 	Sources             *SourceList                  `json:"sources"`
 	Subscriptions       *SubscriptionList            `json:"subscriptions"`
