@@ -91,22 +91,25 @@ type CustomerListParams struct {
 // Customer is the resource representing a Stripe customer.
 // For more details see https://stripe.com/docs/api#customers.
 type Customer struct {
-	AccountBalance      int64                        `json:"account_balance"`
-	Created             int64                        `json:"created"`
-	Currency            Currency                     `json:"currency"`
-	DefaultSource       *PaymentSource               `json:"default_source"`
-	Deleted             bool                         `json:"deleted"`
-	Delinquent          bool                         `json:"delinquent"`
-	Description         string                       `json:"description"`
-	Discount            *Discount                    `json:"discount"`
-	Email               string                       `json:"email"`
-	ID                  string                       `json:"id"`
-	InvoicePrefix       string                       `json:"invoice_prefix"`
-	Livemode            bool                         `json:"livemode"`
-	Metadata            map[string]string            `json:"metadata"`
-	Shipping            *CustomerShippingDetails     `json:"shipping"`
-	Sources             *SourceList                  `json:"sources"`
-	Subscriptions       *SubscriptionList            `json:"subscriptions"`
+	AccountBalance int64                    `json:"account_balance"`
+	Created        int64                    `json:"created"`
+	Currency       Currency                 `json:"currency"`
+	DefaultSource  *PaymentSource           `json:"default_source"`
+	Deleted        bool                     `json:"deleted"`
+	Delinquent     bool                     `json:"delinquent"`
+	Description    string                   `json:"description"`
+	Discount       *Discount                `json:"discount"`
+	Email          string                   `json:"email"`
+	ID             string                   `json:"id"`
+	InvoicePrefix  string                   `json:"invoice_prefix"`
+	Livemode       bool                     `json:"livemode"`
+	Metadata       map[string]string        `json:"metadata"`
+	Shipping       *CustomerShippingDetails `json:"shipping"`
+	Sources        *SourceList              `json:"sources"`
+	Subscriptions  *SubscriptionList        `json:"subscriptions"`
+	TaxIds         *TaxIDList               `json:"tax_ids"`
+
+	// The following properties are deprecated. Use TaxIds instead.
 	TaxInfo             *CustomerTaxInfo             `json:"tax_info"`
 	TaxInfoVerification *CustomerTaxInfoVerification `json:"tax_info_verification"`
 }
